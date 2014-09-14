@@ -7,7 +7,26 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+	<% if signed_in? %>
+		<p>Welcome <%= current_user.username %> | Not you?
+		<form action="<%= session_url %>" method="POST">
+			<%= auth_token %>
+			<%= action_modifier("delete") %>
+			<button>Sign Out</button>
+		</form>
+	</p>
+	<% else %>
+		<a href="<%= new_session_url %>">Sign In</a>
+		<a href="<%= new_user_url %>">Sign Up</a>
+	<% end %>
+	
+	<% if flash[:errors] %>
+		<ul>
+			<% flash[:errors].each do |error| %>
+				<li><p><%= error %><p></li>
+			<% end %>
+		</ul>
+	<% end %>
 <%= yield %>
 
 </body>
