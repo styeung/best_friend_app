@@ -5,8 +5,11 @@ class User < ActiveRecord::Base
 
   #has_many :saved_users, through: :saved_users
   #has_many :ignored_users, through: :ignored_users
-  #has_many :conversations, through: :conversations_users
+  has_many :conversation_users
+  has_many :conversations, through: :conversation_users
+
   has_many :created_meetings, foreign_key: :creator_id, class_name: "Meeting"
+
   has_many :meeting_attends
   has_many :attended_meetings, through: :meeting_attends, source: :meeting
 

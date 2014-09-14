@@ -11,10 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140914191354) do
+ActiveRecord::Schema.define(version: 20140914193420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attended_meetings", force: true do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "meeting_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attended_meetings", ["meeting_id"], name: "index_attended_meetings_on_meeting_id", using: :btree
+  add_index "attended_meetings", ["user_id"], name: "index_attended_meetings_on_user_id", using: :btree
+
+  create_table "conversation_messages", force: true do |t|
+    t.integer  "conversation_id", null: false
+    t.integer  "message_id",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "conversation_messages", ["conversation_id"], name: "index_conversation_messages_on_conversation_id", using: :btree
+  add_index "conversation_messages", ["message_id"], name: "index_conversation_messages_on_message_id", using: :btree
+
+  create_table "conversation_users", force: true do |t|
+    t.integer  "user_id",         null: false
+    t.integer  "conversation_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "conversation_users", ["conversation_id"], name: "index_conversation_users_on_conversation_id", using: :btree
+  add_index "conversation_users", ["user_id"], name: "index_conversation_users_on_user_id", using: :btree
 
   create_table "conversations", force: true do |t|
     t.datetime "created_at"
@@ -45,14 +75,16 @@ ActiveRecord::Schema.define(version: 20140914191354) do
   add_index "meetings", ["start_date_time"], name: "index_meetings_on_start_date_time", using: :btree
 
   create_table "messages", force: true do |t|
-    t.integer  "author_id",    null: false
-    t.integer  "recipient_id", null: false
-    t.text     "contents",     null: false
+    t.integer  "author_id",       null: false
+    t.integer  "recipient_id",    null: false
+    t.text     "contents",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "conversation_id"
   end
 
   add_index "messages", ["author_id"], name: "index_messages_on_author_id", using: :btree
+  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
   add_index "messages", ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
 
   create_table "users", force: true do |t|
