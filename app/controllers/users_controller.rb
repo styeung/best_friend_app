@@ -42,9 +42,16 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     
-    if saved_user_params
+    unless saved_user_params.empty?
       new_user = User.find(saved_user_params[:saved_user_id])
       @user.saved_users << new_user
+      redirect_to user_url(@user)
+      return
+    end
+    
+    unless ignored_user_params.empty?
+      new_user = User.find(ignored_user_params[:ignored_user_id])
+      @user.ignored_users << new_user
       redirect_to user_url(@user)
       return
     end
@@ -85,5 +92,9 @@ class UsersController < ApplicationController
   
   def saved_user_params
     params.require(:user).permit(:saved_user_id)
+  end
+  
+  def ignored_user_params
+    params.require(:user).permit(:ignored_user_id)
   end
 end

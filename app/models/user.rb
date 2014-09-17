@@ -80,4 +80,16 @@ class User < ActiveRecord::Base
   def ensure_session_token
     self.session_token ||= self.class.generate_session_token
   end
+  
+  def already_saved_user?(user)
+    return true if self.saved_user_ids.include?(user.id)
+    
+    false
+  end
+  
+  def already_ignored_user?(user)
+    return true if self.ignored_user_ids.include?(user.id)
+    
+    false
+  end
 end

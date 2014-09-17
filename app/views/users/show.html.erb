@@ -11,4 +11,11 @@
 <% end %>
 </ul>
 
+<h2>Ignored Users</h2>
+<ul>
+<% @user.ignored_users.each do |user| %>
+	<li><a href="<%= user_url(user) %>"><%= user.username %></a></li>
+<% end %>
+</ul>
+
 <a href="<%= edit_user_url %>">Edit Profile</a>
