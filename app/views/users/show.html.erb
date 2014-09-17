@@ -1,0 +1,7 @@
+<ul>
+	<img src="<%= @user.profile_photo.url(:small) %>">
+	<li><p>Username: <%= @user.username %></p></li>
+	<li><p>Email: <%= @user.email %></p></li>
+</ul>
+
+<a href="<%= edit_user_url %>">Edit Profile</a>

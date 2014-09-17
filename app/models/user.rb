@@ -12,6 +12,16 @@ class User < ActiveRecord::Base
 
   has_many :meeting_attends
   has_many :attended_meetings, through: :meeting_attends, source: :meeting
+  
+  has_attached_file :profile_photo, :styles =>  {
+    big: "600x600#",
+    small: "300x300#"
+  }, :default_url => "/images/missing_:style.png"
+  
+  validates_attachment_content_type(
+    :profile_photo, 
+    :content_type => /\Aimage\/.*\Z/ 
+  )
 
   attr_reader :password
   after_initialize :ensure_session_token

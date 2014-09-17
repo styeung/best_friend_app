@@ -8,7 +8,7 @@
 </head>
 <body>
 	<% if signed_in? %>
-		<p>Welcome <%= current_user.username %> | Not you?
+		<p>Welcome <a href="<%= user_url(current_user) %>"><%= current_user.username %></a> | Not you?
 		<form action="<%= session_url %>" method="POST">
 			<%= auth_token %>
 			<%= action_modifier("delete") %>
