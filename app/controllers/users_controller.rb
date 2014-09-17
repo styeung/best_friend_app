@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    
+    render :index
   end
 
   def new
@@ -39,6 +41,13 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    
+    if saved_user_params
+      new_user = User.find(saved_user_params[:saved_user_id])
+      @user.saved_users << new_user
+      redirect_to user_url(@user)
+      return
+    end
 
     if @user.update(profile_params)
       redirect_to user_url(@user)
@@ -72,5 +81,9 @@ class UsersController < ApplicationController
                                  :relationship_status,
                                  :personality_type)
 
+  end
+  
+  def saved_user_params
+    params.require(:user).permit(:saved_user_id)
   end
 end

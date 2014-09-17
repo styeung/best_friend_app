@@ -4,6 +4,7 @@
   User.create(
     username: Faker::Name.name,
     email: Faker::Internet.email,
+    age: rand(20..50),
     password: 'password',
     life_goals: Faker::Company.bs,
     job: Faker::Company.name,

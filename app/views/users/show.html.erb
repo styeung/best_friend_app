@@ -4,4 +4,11 @@
 	<li><p>Email: <%= @user.email %></p></li>
 </ul>
 
+<h2>Saved Users</h2>
+<ul>
+<% @user.saved_users.each do |user| %>
+	<li><a href="<%= user_url(user) %>"><%= user.username %></a></li>
+<% end %>
+</ul>
+
 <a href="<%= edit_user_url %>">Edit Profile</a>
