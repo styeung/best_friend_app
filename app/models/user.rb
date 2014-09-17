@@ -3,10 +3,8 @@ class User < ActiveRecord::Base
   validates :username, :email, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
 
-  #has_many :saved_users, through: :saved_users
-  #has_many :ignored_users, through: :ignored_users
   has_many :conversation_users
-  has_many :conversations, through: :conversation_users
+  has_many :all_conversations, through: :conversation_users, source: :conversation
 
   has_many :created_meetings, foreign_key: :creator_id, class_name: "Meeting"
 
@@ -32,6 +30,13 @@ class User < ActiveRecord::Base
   )
   
   has_many :ignored_users, through: :created_ignores
+  
+  has_many( 
+    :authored_messages,
+    class_name: "Message",
+    foreign_key: :author_id,
+    primary_key: :id
+  )
   
   has_attached_file :profile_photo, :styles =>  {
     big: "600x600#",
@@ -79,5 +84,21 @@ class User < ActiveRecord::Base
 
   def ensure_session_token
     self.session_token ||= self.class.generate_session_token
+  end
+  
+  def already_saved_user?(user)
+    return true if self.saved_user_ids.include?(user.id)
+    
+    false
+  end
+  
+  def already_ignored_user?(user)
+    return true if self.ignored_user_ids.include?(user.id)
+    
+    false
+  end
+  
+  def conversations
+    self.all_conversations.uniq
   end
 end
