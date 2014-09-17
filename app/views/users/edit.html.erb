@@ -5,6 +5,8 @@
 	
 	<input type="file" name="user[profile_photo]">
 	
+	<br>
+	
 	<label>
 		Username
 		<input type="text" name="user[username]" value="<%= @user.username %>">
@@ -15,6 +17,55 @@
 	<label>
 		Email
 		<input type="text" name="user[email]" value="<%= @user.email %>">
+	</label>
+		
+	<br>
+	
+	<label>
+		Life Goals
+		<input type="text" name="user[life_goals]" value="<%= @user.life_goals %>">
+	</label>
+	
+	<br>
+	
+	<label>
+		Job(s)
+		<input type="text" name="user[job]" value="<%= @user.job %>">
+	</label>
+	
+	<br>
+	
+	<label>
+		Hobbies
+		<input type="text" name="user[hobbies]" value="<%= @user.hobbies %>">
+	</label>
+		
+	<br>
+
+	<label>
+		Reason to meet
+		<input type="text" name="user[reason_to_meet]" value="<%= @user.reason_to_meet %>">
+	</label>
+	
+	<br>
+	
+	<label>
+		Relationship Status
+		<input type="text" name="user[relationship_status]" value="<%= @user.relationship_status %>">
+	</label>
+	
+	<br>
+	
+	<label>
+		Personality Type
+		<select name="user[personality_type]">
+			<option value="">Choose One</option>
+			<option value="1" <%= Selected if @user.personality_type == 1 %>>Nerdy</option>
+			<option value="2" <%= Selected if @user.personality_type == 2 %>>Nerd-ish</option>
+			<option value="3" <%= Selected if @user.personality_type == 3 %>>Neutral</option>
+			<option value="4" <%= Selected if @user.personality_type == 4 %>>Bro-ish</option>
+			<option value="5" <%= Selected if @user.personality_type == 5 %>>Bro</option>
+		</select>
 	</label>
 		
 	<br>
