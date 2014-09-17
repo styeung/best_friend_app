@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.new(user_params)
+    @user = User.new(signup_params)
     if @user.save
       login(@user)
       redirect_to root_url
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     
-    if @user.update(user_params)
+    if @user.update(profile_params)
       redirect_to user_url(@user)
     else
       flash.now[:errors] = @user.errors.full_messages
@@ -53,7 +53,20 @@ class UsersController < ApplicationController
     end
   end
   
-  def user_params
-    params.require(:user).permit(:username, :email, :password, :profile_photo)
+  def signup_params
+    params.require(:user).permit(:username, :email, :password)
+  end
+  
+  def profile_params
+    params.require(:user).permit(:username, 
+                                 :email, 
+                                 :profile_photo, 
+                                 :life_goals, 
+                                 :job, 
+                                 :hobbies, 
+                                 :reason_to_meet, 
+                                 :relationship_status,
+                                 :personality_type)
+                                
   end
 end
