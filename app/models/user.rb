@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   has_many :meeting_attends
   has_many :attended_meetings, through: :meeting_attends, source: :meeting
   
+  has_many :user_photos
+  
   has_attached_file :profile_photo, :styles =>  {
     big: "600x600#",
     small: "300x300#"
