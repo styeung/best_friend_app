@@ -55,6 +55,15 @@ class UsersController < ApplicationController
       redirect_to user_url(@user)
       return
     end
+    
+    unless message_params.empty?
+      convo = Conversation.create()
+      m = current_user.authored_messages.create(contents: message_params[:message])
+      
+      convo.messages << m
+      convo.users << current_user
+      convo.users << User.find(message_params[:recipient_id])
+    end
 
     if @user.update(profile_params)
       redirect_to user_url(@user)
@@ -96,5 +105,9 @@ class UsersController < ApplicationController
   
   def ignored_user_params
     params.require(:user).permit(:ignored_user_id)
+  end
+  
+  def message_params
+    params.require(:user).permit(:recipient_id, :message)
   end
 end

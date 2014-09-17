@@ -7,6 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<a href="<%= users_url %>">Home</a>
 	<% if signed_in? %>
 		<p>Welcome <a href="<%= user_url(current_user) %>"><%= current_user.username %></a> | Not you?
 		<form action="<%= session_url %>" method="POST">

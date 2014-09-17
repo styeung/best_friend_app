@@ -18,4 +18,17 @@
 <% end %>
 </ul>
 
+<h2>Conversations</h2>
+<ul>
+	<% @user.conversations.each do |conversation| %>
+		<li>
+			<% conversation.messages.each do |message| %>
+				<ul>
+					<li><%= message.author.username %>: <%= message.contents %></li>
+				</ul>
+			<% end %>
+		</li>
+	<% end %>
+</ul>
+
 <a href="<%= edit_user_url %>">Edit Profile</a>
