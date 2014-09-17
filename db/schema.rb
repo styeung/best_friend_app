@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917151515) do
+ActiveRecord::Schema.define(version: 20140917185323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,15 +60,16 @@ ActiveRecord::Schema.define(version: 20140917151515) do
     t.datetime "end_date_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "location_id"
   end
 
   add_index "meetings", ["creator_id"], name: "index_meetings_on_creator_id", using: :btree
   add_index "meetings", ["end_date_time"], name: "index_meetings_on_end_date_time", using: :btree
+  add_index "meetings", ["location_id"], name: "index_meetings_on_location_id", using: :btree
   add_index "meetings", ["start_date_time"], name: "index_meetings_on_start_date_time", using: :btree
 
   create_table "messages", force: true do |t|
     t.integer  "author_id",       null: false
-    t.integer  "recipient_id",    null: false
     t.text     "contents",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -77,7 +78,16 @@ ActiveRecord::Schema.define(version: 20140917151515) do
 
   add_index "messages", ["author_id"], name: "index_messages_on_author_id", using: :btree
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
-  add_index "messages", ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
+
+  create_table "user_ignores", force: true do |t|
+    t.integer  "creator_id",      null: false
+    t.integer  "ignored_user_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_ignores", ["creator_id"], name: "index_user_ignores_on_creator_id", using: :btree
+  add_index "user_ignores", ["ignored_user_id"], name: "index_user_ignores_on_ignored_user_id", using: :btree
 
   create_table "user_photos", force: true do |t|
     t.integer  "user_id",            null: false
@@ -90,6 +100,16 @@ ActiveRecord::Schema.define(version: 20140917151515) do
   end
 
   add_index "user_photos", ["user_id"], name: "index_user_photos_on_user_id", using: :btree
+
+  create_table "user_saves", force: true do |t|
+    t.integer  "creator_id",    null: false
+    t.integer  "saved_user_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_saves", ["creator_id"], name: "index_user_saves_on_creator_id", using: :btree
+  add_index "user_saves", ["saved_user_id"], name: "index_user_saves_on_saved_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username",                   null: false
@@ -108,9 +128,11 @@ ActiveRecord::Schema.define(version: 20140917151515) do
     t.string   "profile_photo_content_type"
     t.integer  "profile_photo_file_size"
     t.datetime "profile_photo_updated_at"
+    t.integer  "location_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["location_id"], name: "index_users_on_location_id", using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

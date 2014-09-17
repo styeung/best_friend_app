@@ -15,6 +15,24 @@ class User < ActiveRecord::Base
   
   has_many :user_photos
   
+  has_many(
+    :created_saves,
+    class_name: "UserSave",
+    foreign_key: :creator_id,
+    primary_key: :id
+  )
+  
+  has_many :saved_users, through: :created_saves
+  
+  has_many(
+    :created_ignores,
+    class_name: "UserIgnore",
+    foreign_key: :creator_id,
+    primary_key: :id
+  )
+  
+  has_many :ignored_users, through: :created_ignores
+  
   has_attached_file :profile_photo, :styles =>  {
     big: "600x600#",
     small: "300x300#"
