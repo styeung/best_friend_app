@@ -43,6 +43,7 @@ gem "aws-sdk"
 gem "figaro"
 
 group :development do
+  gem 'faker'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets'
